@@ -35,7 +35,7 @@
   },
   "eslintConfig": {
     "parserOptions": {
-      "ecmaVersion": 2016
+      "ecmaVersion": 2018
     },
     "extends": [
       "eslint:recommended",
