@@ -21,40 +21,29 @@ describe('User Registration', () => {
     });
   };
 
-  it('returns 200 Ok when signup request is valid', (done) => {
-    postValidUser().then((response) => {
-      expect(response.status).toBe(200);
-      done();
-    });
+  it('returns 200 Ok when signup request is valid', async () => {
+    const response = await postValidUser();
+    expect(response.status).toBe(200);
   });
 
-  it('returns success message when signup request is valid', (done) => {
-    postValidUser().then((response) => {
-      expect(response.body.message).toBe('User created');
-      done();
-    });
+  it('returns success message when signup request is valid', async () => {
+    const response = await postValidUser();
+    expect(response.body.message).toBe('User created');
   });
 
-  it('saves the username, email and password to the database', (done) => {
-    postValidUser().then(() => {
-      // query user table
-      User.findAll().then((userList) => {
-        const savedUser = userList[0];
-        expect(savedUser.username).toBe('user1');
-        expect(savedUser.email).toBe('user1@mail.com');
-        done();
-      });
-    });
+  it('saves the username, email and password to the database', async () => {
+    await postValidUser();
+    const userList = await User.findAll();
+    const savedUser = await userList[0];
+    expect(savedUser.username).toBe('user1');
+    expect(savedUser.email).toBe('user1@mail.com');
   });
 
-  it('Hashes the password in the database', (done) => {
-    postValidUser().then(() => {
-      // query user table
-      User.findAll().then((userList) => {
-        const savedUser = userList[0];
-        expect(savedUser.password).not.toBe('p4ssword');
-        done();
-      });
-    });
+  it('Hashes the password in the database', async () => {
+    await postValidUser();
+    // query user table
+    const userList = await User.findAll();
+    const savedUser = userList[0];
+    expect(savedUser.password).not.toBe('p4ssword');
   });
 });
