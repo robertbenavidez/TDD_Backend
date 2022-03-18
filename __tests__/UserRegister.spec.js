@@ -46,4 +46,13 @@ describe('User Registration', () => {
     const savedUser = userList[0];
     expect(savedUser.password).not.toBe('p4ssword');
   });
+
+  it('Returns 400 username is null', async () => {
+    const response = await request(app).post('/api/1.0/users').send({
+      username: null,
+      email: 'user1@mail.com',
+      password: 'p4ssword',
+    });
+    expect(response.status).toBe(400);
+  });
 });
